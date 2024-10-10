@@ -2,18 +2,18 @@
 
 /* global describe, beforeEach, it */
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
 
-var app, Folder
+let app, Folder
 
 describe('reflexive relationship', function () {
   beforeEach(function (done) {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     // create models
     Folder = ds.createModel('folder', {
       id: { type: Number, id: true },

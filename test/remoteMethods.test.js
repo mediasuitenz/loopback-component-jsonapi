@@ -1,15 +1,15 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var app, Post, Archive
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+let app, Post, Archive
 
 describe('loopback json api remote methods', function () {
-  var autocompleteTitleData = ['Post 1', 'Post 2']
+  const autocompleteTitleData = ['Post 1', 'Post 2']
 
-  var archiveData = {
+  const archiveData = {
     id: 10,
     raw: {
       id: 1,
@@ -19,7 +19,7 @@ describe('loopback json api remote methods', function () {
     createdAt: Date.now()
   }
 
-  var postData = {
+  const postData = {
     id: 1,
     title: 'Post 1',
     content: 'Content of Post 1'
@@ -28,7 +28,7 @@ describe('loopback json api remote methods', function () {
   beforeEach(function (done) {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
 
     Archive = ds.createModel('archive', {
       id: { type: Number, id: true },

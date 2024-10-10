@@ -1,17 +1,17 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var app
-var Post
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+let app
+let Post
 
 describe('loopback json api component find methods', function () {
   beforeEach(function () {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
@@ -151,7 +151,7 @@ describe('loopback json api component find methods', function () {
       'GET /posts should produce correct resource level self links for collections',
       function (done) {
         request(app).get('/posts').expect(200).end(function (err, res) {
-          var index = 1
+          let index = 1
           expect(err).to.equal(null)
           expect(res.body.data).to.be.a('array')
           expect(res.body.links.self).to.match(
@@ -380,7 +380,7 @@ describe('non standard primary key naming', function () {
   beforeEach(function (done) {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     Post = ds.createModel('post', {
       customId: { type: Number, id: true, generated: true },
       title: String

@@ -1,10 +1,10 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var app, Post, Comment, Author, ds
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+let app, Post, Comment, Author, ds
 
 describe('loopback json api hasMany relationships', function () {
   beforeEach(function () {
@@ -81,7 +81,7 @@ describe('loopback json api hasMany relationships', function () {
         .get('/posts/1/?include=author,comments')
         .expect(200)
         .end(function (err, res) {
-          var data = res.body.data
+          const data = res.body.data
           expect(err).to.equal(null)
           expect(data.id).to.equal('1')
           expect(data.type).to.equal('posts')

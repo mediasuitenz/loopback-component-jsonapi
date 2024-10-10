@@ -1,15 +1,15 @@
 'use strict'
 
-var http = require('http')
+const http = require('http')
 
 module.exports = function (app) {
   return {
     post: function (path, data, options, cb) {
-      var s = app.listen(function () {
-        var req = http.request(
+      const s = app.listen(function () {
+        const req = http.request(
           {
             port: s.address().port,
-            path: path,
+            path,
             headers: options.headers || {},
             method: 'POST'
           },
@@ -28,7 +28,7 @@ module.exports = function (app) {
         req.on('error', function (err) {
           cb(err)
         })
-        var postData = JSON.stringify(data || {})
+        const postData = JSON.stringify(data || {})
         req.write(postData)
         req.end()
       })

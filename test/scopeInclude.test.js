@@ -1,10 +1,10 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var ds, app, Post, Author, Comment, Category
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+let ds, app, Post, Author, Comment, Category
 
 describe('include option', function () {
   beforeEach(function () {

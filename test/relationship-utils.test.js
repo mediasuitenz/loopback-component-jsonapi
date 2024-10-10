@@ -148,9 +148,9 @@ describe('relationship utils', () => {
         Post.create({}),
         Comment.create([{}, {}, {}, {}]),
         PostComment.create([
-            { postId: 1, commentId: 1 },
-            { postId: 1, commentId: 2 },
-            { postId: 1, commentId: 3 }
+          { postId: 1, commentId: 1 },
+          { postId: 1, commentId: 2 },
+          { postId: 1, commentId: 3 }
         ])
       ])
         .then(
@@ -210,9 +210,9 @@ describe('relationship utils', () => {
         Post.create({}),
         Comment.create([{}, {}, {}, {}]),
         PostComment.create([
-            { postId: 1, commentId: 1 },
-            { postId: 1, commentId: 2 },
-            { postId: 1, commentId: 3 }
+          { postId: 1, commentId: 1 },
+          { postId: 1, commentId: 2 },
+          { postId: 1, commentId: 3 }
         ])
       ])
         .then(() => linkRelatedModels('comments', from, to))

@@ -1,12 +1,12 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
 
-var app
-var Image
+let app
+let Image
 
 describe('Dont override config.js ', function () {
   beforeEach(function () {
@@ -14,9 +14,9 @@ describe('Dont override config.js ', function () {
     app.set('legacyExplorer', false)
     app.use(loopback.rest())
 
-    var remotes = app.remotes()
+    const remotes = app.remotes()
     remotes.options.json = { limit: '100B' }
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     Image = ds.createModel('image', {
       id: { type: Number, id: true },
       source: String
@@ -28,7 +28,7 @@ describe('Dont override config.js ', function () {
   })
 
   it('should have limit property', function (done) {
-    var remotes = app.remotes()
+    const remotes = app.remotes()
     expect(remotes.options.json).to.have.any.keys('limit')
     done()
   })
