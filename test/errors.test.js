@@ -1,18 +1,18 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var _ = require('lodash')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var app
-var Post
+const request = require('supertest')
+const loopback = require('loopback')
+const _ = require('lodash')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+let app
+let Post
 
 describe('disabling loopback-component-jsonapi error handler', function () {
   it('should retain the default error handler', function (done) {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
@@ -35,7 +35,7 @@ describe('loopback json api errors', function () {
   beforeEach(function () {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
@@ -181,7 +181,7 @@ describe('loopback json api errors', function () {
 })
 
 describe('loopback json api errors with advanced reporting', function () {
-  var errorMetaMock = {
+  const errorMetaMock = {
     status: 418,
     meta: { rfc: 'RFC2324' },
     code: "i'm a teapot",
@@ -193,7 +193,7 @@ describe('loopback json api errors with advanced reporting', function () {
   beforeEach(function () {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
@@ -201,7 +201,7 @@ describe('loopback json api errors with advanced reporting', function () {
     })
 
     Post.find = function () {
-      var err = new Error(errorMetaMock.detail)
+      const err = new Error(errorMetaMock.detail)
       err.name = errorMetaMock.title
       err.meta = errorMetaMock.meta
       err.source = errorMetaMock.source

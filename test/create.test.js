@@ -1,18 +1,18 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var app
-var Post
-var Comment
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+let app
+let Post
+let Comment
 
 describe('loopback json api component create method', function () {
   beforeEach(function () {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
@@ -54,7 +54,7 @@ describe('loopback json api component create method', function () {
     it(
       'POST /models should have the JSON API Content-Type header set on response',
       function () {
-        var data = {
+        const data = {
           data: {
             type: 'posts',
             attributes: {

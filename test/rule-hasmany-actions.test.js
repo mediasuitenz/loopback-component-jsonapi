@@ -1,13 +1,13 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var app
-var Rule
-var Action
-var ds
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+let app
+let Rule
+let Action
+let ds
 
 describe('Rule `hasMany` Action relationships', function () {
   beforeEach(function () {
@@ -77,7 +77,9 @@ describe('Rule `hasMany` Action relationships', function () {
               expect(actions[1].ruleId).to.equal(2)
               expect(actions[2].ruleId).to.equal(2)
               done()
+              return undefined
             })
+            return undefined
           })
         })
     })

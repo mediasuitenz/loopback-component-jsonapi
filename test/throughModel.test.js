@@ -1,17 +1,17 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var RSVP = require('rsvp')
-var app, User, Interest, Topic
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+const RSVP = require('rsvp')
+let app, User, Interest, Topic
 
 describe('through Model', function () {
   beforeEach(function () {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
 
     User = ds.createModel('user', {
       id: { type: Number, id: true },
@@ -117,9 +117,9 @@ describe('through Model', function () {
 })
 
 function makeData (done) {
-  var createUser = denodeifyCreate(User)
-  var createTopic = denodeifyCreate(Topic)
-  var createInterest = denodeifyCreate(Interest)
+  const createUser = denodeifyCreate(User)
+  const createTopic = denodeifyCreate(Topic)
+  const createInterest = denodeifyCreate(Interest)
 
   return RSVP.hash({
     user: createUser({ name: 'User 1' }),

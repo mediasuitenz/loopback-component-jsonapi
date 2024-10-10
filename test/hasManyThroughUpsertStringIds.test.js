@@ -2,20 +2,20 @@
 
 /* global describe, beforeEach, it */
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var RSVP = require('rsvp')
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+const RSVP = require('rsvp')
 
-var app
-var Movie, Category, MovieCategory
+let app
+let Movie, Category, MovieCategory
 
 describe('hasManyThrough upsert', function () {
   beforeEach(function (done) {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     // create models
     Movie = ds.createModel('movie', {
       id: { type: String, id: true },
@@ -63,7 +63,7 @@ describe('hasManyThrough upsert', function () {
   })
 
   it('should handle PATCH', function (done) {
-    var agent = request(app)
+    const agent = request(app)
     agent
       .patch('/movies/M1')
       .send({
@@ -95,9 +95,9 @@ describe('hasManyThrough upsert', function () {
 })
 
 function makeData () {
-  var createMovie = denodeifyCreate(Movie)
-  var createCategory = denodeifyCreate(Category)
-  var createAssoc = denodeifyCreate(MovieCategory)
+  const createMovie = denodeifyCreate(Movie)
+  const createCategory = denodeifyCreate(Category)
+  const createAssoc = denodeifyCreate(MovieCategory)
 
   return RSVP.hash({
     movie: createMovie({ id: 'M1', name: 'The Shawshank Redemption' }),

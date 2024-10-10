@@ -1,18 +1,18 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var app
-var Post
-var Comment
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+let app
+let Post
+let Comment
 
 describe('foreign key configuration', function () {
   beforeEach(function (done) {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
 
     Post = ds.createModel('post', { title: String })
     app.model(Post)

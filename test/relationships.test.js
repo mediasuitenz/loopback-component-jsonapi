@@ -1,15 +1,15 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var expect = require('chai').expect
-var JSONAPIComponent = require('../')
-var _ = require('lodash')
-var app
-var Post
-var Comment
-var ds
-var Person
+const request = require('supertest')
+const loopback = require('loopback')
+const expect = require('chai').expect
+const JSONAPIComponent = require('../')
+const _ = require('lodash')
+let app
+let Post
+let Comment
+let ds
+let Person
 
 describe('loopback json api belongsTo relationships', function () {
   beforeEach(function () {

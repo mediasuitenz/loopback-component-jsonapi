@@ -1,16 +1,16 @@
 'use strict'
 
-var request = require('supertest')
-var loopback = require('loopback')
-var JSONAPIComponent = require('../')
-var app
-var Post
+const request = require('supertest')
+const loopback = require('loopback')
+const JSONAPIComponent = require('../')
+let app
+let Post
 
 describe('loopback json api component delete method', function () {
   beforeEach(function (done) {
     app = loopback()
     app.set('legacyExplorer', false)
-    var ds = loopback.createDataSource('memory')
+    const ds = loopback.createDataSource('memory')
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
