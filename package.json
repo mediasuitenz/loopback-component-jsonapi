@@ -1,7 +1,7 @@
 {
   "name": "@mediasuite/loopback-component-jsonapi",
   "description": "JSONAPI support for loopback",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "main": "lib/index.js",
   "scripts": {
     "test": "npm run lint && istanbul cover _mocha --report lcovonly --reporter=spec ./test/**/*.test.js",
