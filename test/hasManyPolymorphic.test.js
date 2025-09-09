@@ -19,7 +19,7 @@ describe('loopback json api hasMany polymorphic relationships', function () {
       id: { type: Number, id: true },
       fileName: String,
       parentId: Number,
-      parentType: String
+      parentType: String,
     })
     Resource.settings.plural = 'resources'
     app.model(Resource)
@@ -27,12 +27,12 @@ describe('loopback json api hasMany polymorphic relationships', function () {
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
-      content: String
+      content: String,
     })
     Post.settings.plural = 'posts'
     Post.hasMany(Resource, {
       as: 'resources',
-      polymorphic: 'parent'
+      polymorphic: 'parent',
     })
     app.model(Post)
 
@@ -45,7 +45,7 @@ describe('loopback json api hasMany polymorphic relationships', function () {
       Post.create(
         {
           title: 'Post One',
-          content: 'Content'
+          content: 'Content',
         },
         function (err, post) {
           expect(err).to.equal(null)
@@ -53,27 +53,29 @@ describe('loopback json api hasMany polymorphic relationships', function () {
             {
               fileName: 'blah.jpg',
               parentId: post.id,
-              parentType: 'post'
+              parentType: 'post',
             },
-            done
+            done,
           )
-        }
+        },
       )
     })
 
     it('should have a relationship to Resources', function (done) {
-      request(app).get('/posts/1').end(function (err, res) {
-        expect(err).to.equal(null)
-        expect(res.body).to.not.have.key('errors')
-        expect(res.body.data.relationships.resources).to.be.an('object')
-        done()
-      })
+      request(app)
+        .get('/posts/1')
+        .end(function (err, res) {
+          expect(err).to.equal(null)
+          expect(res.body).to.not.have.key('errors')
+          expect(res.body.data.relationships.resources).to.be.an('object')
+          done()
+        })
     })
 
-    it(
-      'should return the Resources that belong to this Post when included flag is present',
-      function (done) {
-        request(app).get('/posts/1?include=resources').end(function (err, res) {
+    it('should return the Resources that belong to this Post when included flag is present', function (done) {
+      request(app)
+        .get('/posts/1?include=resources')
+        .end(function (err, res) {
           expect(err).to.equal(null)
           expect(res.body).to.not.have.key('errors')
           expect(res.body.included).to.be.an('array')
@@ -81,27 +83,27 @@ describe('loopback json api hasMany polymorphic relationships', function () {
           expect(res.body.included[0].id).to.equal('1')
           done()
         })
-      }
-    )
+    })
 
-    it(
-      'should return the Resources that belong to this Post when following the relationship link',
-      function (done) {
-        request(app).get('/posts/1').end(function (err, res) {
+    it('should return the Resources that belong to this Post when following the relationship link', function (done) {
+      request(app)
+        .get('/posts/1')
+        .end(function (err, res) {
           expect(err).to.equal(null)
           expect(res.body).to.not.have.key('errors')
           const relationships = res.body.data.relationships
           const url = relationships.resources.links.related.split('api')[1]
-          request(app).get(url).end(function (err, res) {
-            expect(err).to.equal(null)
-            expect(res.body).to.not.have.key('errors')
-            expect(res.body.data).to.be.an('array')
-            expect(res.body.data[0].type).to.equal('resources')
-            expect(res.body.data[0].id).to.equal('1')
-            done()
-          })
+          request(app)
+            .get(url)
+            .end(function (err, res) {
+              expect(err).to.equal(null)
+              expect(res.body).to.not.have.key('errors')
+              expect(res.body.data).to.be.an('array')
+              expect(res.body.data[0].type).to.equal('resources')
+              expect(res.body.data[0].id).to.equal('1')
+              done()
+            })
         })
-      }
-    )
+    })
   })
 })

@@ -14,20 +14,20 @@ describe('loopback json api hasMany relationships', function () {
 
     Post = ds.createModel('post', {
       title: String,
-      content: String
+      content: String,
     })
     app.model(Post)
 
     Comment = ds.createModel('comment', {
       title: String,
-      comment: String
+      comment: String,
     })
     Comment.settings.plural = 'comments'
     app.model(Comment)
 
     Author = ds.createModel('author', {
       firstName: String,
-      lastName: String
+      lastName: String,
     })
     Author.settings.plural = 'authors'
     app.model(Author)
@@ -46,14 +46,14 @@ describe('loopback json api hasMany relationships', function () {
       Author.create(
         {
           firstName: 'Joe',
-          lastName: 'Shmoe'
+          lastName: 'Shmoe',
         },
         function (err, author) {
           expect(err).to.equal(null)
           author.posts.create(
             {
               title: 'my post',
-              content: 'my post content'
+              content: 'my post content',
             },
             function (err, post) {
               expect(err).to.equal(null)
@@ -61,18 +61,18 @@ describe('loopback json api hasMany relationships', function () {
                 [
                   {
                     title: 'My comment',
-                    comment: 'My comment text'
+                    comment: 'My comment text',
                   },
                   {
                     title: 'My second comment',
-                    comment: 'My second comment text'
-                  }
+                    comment: 'My second comment text',
+                  },
                 ],
-                done
+                done,
               )
-            }
+            },
           )
-        }
+        },
       )
     })
 
@@ -96,11 +96,11 @@ describe('loopback json api hasMany relationships', function () {
           expect(data.relationships.comments.data[1].type).to.equal('comments')
           expect(data.attributes).to.deep.equal({
             title: 'my post',
-            content: 'my post content'
+            content: 'my post content',
           })
           expect(res.body.included).to.be.an('array')
           expect(res.body.included.length).to.equal(3)
-          const relatedPostLink = id => {
+          const relatedPostLink = (id) => {
             return res.body.included[0].relationships.posts.links.related
           }
           expect(res.body.included[0]).to.deep.equal({
@@ -108,53 +108,53 @@ describe('loopback json api hasMany relationships', function () {
             type: 'authors',
             attributes: {
               firstName: 'Joe',
-              lastName: 'Shmoe'
+              lastName: 'Shmoe',
             },
             relationships: {
               posts: {
                 links: {
-                  related: relatedPostLink(0)
-                }
-              }
-            }
+                  related: relatedPostLink(0),
+                },
+              },
+            },
           })
           expect(res.body.included[1]).to.deep.equal({
             id: '1',
             type: 'comments',
             attributes: {
               title: 'My comment',
-              comment: 'My comment text'
+              comment: 'My comment text',
             },
             relationships: {
               post: {
                 data: {
                   id: 1,
-                  type: 'posts'
+                  type: 'posts',
                 },
                 links: {
-                  related: res.body.included[1].relationships.post.links.related
-                }
-              }
-            }
+                  related: res.body.included[1].relationships.post.links.related,
+                },
+              },
+            },
           })
           expect(res.body.included[2]).to.deep.equal({
             id: '2',
             type: 'comments',
             attributes: {
               title: 'My second comment',
-              comment: 'My second comment text'
+              comment: 'My second comment text',
             },
             relationships: {
               post: {
                 data: {
                   id: 1,
-                  type: 'posts'
+                  type: 'posts',
                 },
                 links: {
-                  related: res.body.included[2].relationships.post.links.related
-                }
-              }
-            }
+                  related: res.body.included[2].relationships.post.links.related,
+                },
+              },
+            },
           })
           done()
         })
@@ -170,10 +170,7 @@ describe('loopback json api hasMany relationships', function () {
       Foo.hasMany(Bar)
       Foo.belongsTo(Bar)
 
-      return Promise.all([
-        Foo.create({ title: 'one', barId: 1 }),
-        Bar.create({ title: 'one', barId: 1, fooId: 1 })
-      ])
+      return Promise.all([Foo.create({ title: 'one', barId: 1 }), Bar.create({ title: 'one', barId: 1, fooId: 1 })])
     })
 
     it('should not occur', function () {
@@ -181,10 +178,7 @@ describe('loopback json api hasMany relationships', function () {
         .get('/foos/1/?include=bars,bar')
         .expect(200)
         .then(function (res) {
-          expect(res.body.included.length).to.equal(
-            1,
-            'Should be exactly 1 item in included array'
-          )
+          expect(res.body.included.length).to.equal(1, 'Should be exactly 1 item in included array')
         })
     })
   })

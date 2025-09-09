@@ -15,20 +15,20 @@ describe('through Model', function () {
 
     User = ds.createModel('user', {
       id: { type: Number, id: true },
-      name: String
+      name: String,
     })
 
     app.model(User)
 
     Topic = ds.createModel('topic', {
       id: { type: Number, id: true },
-      name: String
+      name: String,
     })
 
     app.model(Topic)
 
     Interest = ds.createModel('interest', {
-      id: { type: Number, id: true }
+      id: { type: Number, id: true },
     })
 
     app.model(Interest)
@@ -58,9 +58,9 @@ describe('through Model', function () {
               attributes: {},
               relationships: {
                 user: { data: { id: user.id, type: 'users' } },
-                topic: { data: { id: topic.id, type: 'topics' } }
-              }
-            }
+                topic: { data: { id: topic.id, type: 'topics' } },
+              },
+            },
           })
           .end(function (err, res) {
             expect(err).to.equal(null)
@@ -75,23 +75,19 @@ describe('through Model', function () {
   it('should retrieve user topics via include', function (done) {
     makeData()
       .then(function () {
-        request(app).get('/users/1?include=topics').end(function (err, res) {
-          expect(err).to.equal(null)
-          expect(res.body.data.relationships.topics.data).to.have
-            .property('length')
-            .and.equal(2)
-          expect(res.body.data.relationships.topics.data[0].type).to.equal(
-            'topics'
-          )
-          expect(res.body.data.relationships.topics.data[1].type).to.equal(
-            'topics'
-          )
-          expect(res.body.included[0].type).to.equal('topics')
-          expect(res.body.included[0].id).to.equal('1')
-          expect(res.body.included[1].type).to.equal('topics')
-          expect(res.body.included[1].id).to.equal('2')
-          done(err)
-        })
+        request(app)
+          .get('/users/1?include=topics')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            expect(res.body.data.relationships.topics.data).to.have.property('length').and.equal(2)
+            expect(res.body.data.relationships.topics.data[0].type).to.equal('topics')
+            expect(res.body.data.relationships.topics.data[1].type).to.equal('topics')
+            expect(res.body.included[0].type).to.equal('topics')
+            expect(res.body.included[0].id).to.equal('1')
+            expect(res.body.included[1].type).to.equal('topics')
+            expect(res.body.included[1].id).to.equal('2')
+            done(err)
+          })
       })
       .catch(done)
   })
@@ -99,46 +95,40 @@ describe('through Model', function () {
   it('should retrieve topic users via include', function (done) {
     makeData()
       .then(function () {
-        request(app).get('/topics/1?include=users').end(function (err, res) {
-          expect(err).to.equal(null)
-          expect(res.body.data.relationships.users.data).to.have
-            .property('length')
-            .and.equal(1)
-          expect(res.body.data.relationships.users.data[0].type).to.equal(
-            'users'
-          )
-          expect(res.body.included[0].type).to.equal('users')
-          expect(res.body.included[0].id).to.equal('1')
-          done(err)
-        })
+        request(app)
+          .get('/topics/1?include=users')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            expect(res.body.data.relationships.users.data).to.have.property('length').and.equal(1)
+            expect(res.body.data.relationships.users.data[0].type).to.equal('users')
+            expect(res.body.included[0].type).to.equal('users')
+            expect(res.body.included[0].id).to.equal('1')
+            done(err)
+          })
       })
       .catch(done)
   })
 })
 
-function makeData (done) {
+function makeData(done) {
   const createUser = denodeifyCreate(User)
   const createTopic = denodeifyCreate(Topic)
   const createInterest = denodeifyCreate(Interest)
 
   return RSVP.hash({
     user: createUser({ name: 'User 1' }),
-    topics: RSVP.all([
-      createTopic({ name: 'Topic 1' }),
-      createTopic({ name: 'Topic 2' })
+    topics: RSVP.all([createTopic({ name: 'Topic 1' }), createTopic({ name: 'Topic 2' })]),
+  }).then(function (models) {
+    return RSVP.all([
+      createInterest({
+        userId: models.user.id,
+        topicId: models.topics[0].id,
+      }),
+      createInterest({ userId: models.user.id, topicId: models.topics[1].id }),
     ])
   })
-    .then(function (models) {
-      return RSVP.all([
-        createInterest({
-          userId: models.user.id,
-          topicId: models.topics[0].id
-        }),
-        createInterest({ userId: models.user.id, topicId: models.topics[1].id })
-      ])
-    })
 
-  function denodeifyCreate (Model) {
+  function denodeifyCreate(Model) {
     return RSVP.denodeify(Model.create.bind(Model))
   }
 }

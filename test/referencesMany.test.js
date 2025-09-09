@@ -14,19 +14,19 @@ describe('loopback json api referencesMany relationships', function () {
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
-      content: String
+      content: String,
     })
     app.model(Post)
 
     Comment = ds.createModel('comment', {
       id: { type: Number, id: true },
       title: String,
-      comment: String
+      comment: String,
     })
     app.model(Comment)
     Post.referencesMany(Comment, {
       property: 'comments',
-      foreignKey: 'commentIDs'
+      foreignKey: 'commentIDs',
     })
     Comment.settings.plural = 'comments'
 
@@ -39,9 +39,9 @@ describe('loopback json api referencesMany relationships', function () {
       Post.create(
         {
           title: 'my post without comments',
-          content: 'my post without comments content'
+          content: 'my post without comments content',
         },
-        done
+        done,
       )
     })
 
@@ -51,24 +51,23 @@ describe('loopback json api referencesMany relationships', function () {
       })
 
       it('should display an empty array keyed by `data`', function (done) {
-        request(app).get('/posts/1/comments').end(function (err, res) {
-          expect(err).to.equal(null)
-          expect(res.body).to.be.an('object')
-          expect(res.body.links).to.be.an('object')
-          expect(res.body.links.self).to.match(/posts\/1\/comments/)
-          expect(res.body.data).to.be.an('array')
-          expect(res.body.data.length).to.equal(0)
-          done()
-        })
+        request(app)
+          .get('/posts/1/comments')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            expect(res.body).to.be.an('object')
+            expect(res.body.links).to.be.an('object')
+            expect(res.body.links.self).to.match(/posts\/1\/comments/)
+            expect(res.body.data).to.be.an('array')
+            expect(res.body.data.length).to.equal(0)
+            done()
+          })
       })
     })
 
     describe('GET /posts/1/relationships/comments', function () {
       it('should return status code 200 OK', function (done) {
-        request(app)
-          .get('/posts/1/relationships/comments')
-          .expect(200)
-          .end(done)
+        request(app).get('/posts/1/relationships/comments').expect(200).end(done)
       })
 
       it('should display an empty array keyed by `data`', function (done) {
@@ -78,9 +77,7 @@ describe('loopback json api referencesMany relationships', function () {
             expect(err).to.equal(null)
             expect(res.body).to.be.an('object')
             expect(res.body.links).to.be.an('object')
-            expect(res.body.links.self).to.match(
-              /posts\/1\/relationships\/comments/
-            )
+            expect(res.body.links.self).to.match(/posts\/1\/relationships\/comments/)
             expect(res.body.links.related).to.match(/posts\/1\/comments/)
             expect(res.body.data).to.be.an('array')
             expect(res.body.data.length).to.equal(0)
@@ -95,7 +92,7 @@ describe('loopback json api referencesMany relationships', function () {
       Comment.create(
         {
           title: 'My comment',
-          comment: 'My comment text'
+          comment: 'My comment text',
         },
         function (err, comment) {
           expect(err).to.equal(null)
@@ -104,15 +101,15 @@ describe('loopback json api referencesMany relationships', function () {
             {
               title: 'my post',
               content: 'my post content',
-              commentIDs: [comment.id]
+              commentIDs: [comment.id],
             },
             function (err, post) {
               expect(err).to.equal(null)
               expect(post).to.be.an('object')
               done()
-            }
+            },
           )
-        }
+        },
       )
     })
 
@@ -122,25 +119,24 @@ describe('loopback json api referencesMany relationships', function () {
       })
 
       it('should display a single item array keyed by `data`', function (done) {
-        request(app).get('/posts/1/comments').end(function (err, res) {
-          expect(err).to.equal(null)
-          expect(res.body).to.be.an('object')
-          expect(res.body.links).to.be.an('object')
-          expect(res.body.links.self).to.match(/posts\/1\/comments/)
-          expect(res.body.data).to.be.an('array')
-          expect(res.body.data.length).to.equal(1)
-          expect(res.body.data[0].type).to.equal('comments')
-          done()
-        })
+        request(app)
+          .get('/posts/1/comments')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            expect(res.body).to.be.an('object')
+            expect(res.body.links).to.be.an('object')
+            expect(res.body.links.self).to.match(/posts\/1\/comments/)
+            expect(res.body.data).to.be.an('array')
+            expect(res.body.data.length).to.equal(1)
+            expect(res.body.data[0].type).to.equal('comments')
+            done()
+          })
       })
     })
 
     describe('GET /posts/1/relationships/comments', function () {
       it('should return status code 200 OK', function (done) {
-        request(app)
-          .get('/posts/1/relationships/comments')
-          .expect(200)
-          .end(done)
+        request(app).get('/posts/1/relationships/comments').expect(200).end(done)
       })
 
       it('should display a single item array keyed by `data`', function (done) {
@@ -150,15 +146,13 @@ describe('loopback json api referencesMany relationships', function () {
             expect(err).to.equal(null)
             expect(res.body).to.be.an('object')
             expect(res.body.links).to.be.an('object')
-            expect(res.body.links.self).to.match(
-              /posts\/1\/relationships\/comments/
-            )
+            expect(res.body.links.self).to.match(/posts\/1\/relationships\/comments/)
             expect(res.body.links.related).to.match(/posts\/1\/comments/)
             expect(res.body.data).to.be.an('array')
             expect(res.body.data.length).to.equal(1)
             expect(res.body.data[0]).to.deep.equal({
               type: 'comments',
-              id: '1'
+              id: '1',
             })
             done()
           })

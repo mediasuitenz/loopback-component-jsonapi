@@ -14,15 +14,15 @@ describe('loopback json api remote methods', function () {
     raw: {
       id: 1,
       title: 'Ancient Post 1',
-      content: 'Ancient Content of Post 1'
+      content: 'Ancient Content of Post 1',
     },
-    createdAt: Date.now()
+    createdAt: Date.now(),
   }
 
   const postData = {
     id: 1,
     title: 'Post 1',
-    content: 'Content of Post 1'
+    content: 'Content of Post 1',
   }
 
   beforeEach(function (done) {
@@ -33,13 +33,13 @@ describe('loopback json api remote methods', function () {
     Archive = ds.createModel('archive', {
       id: { type: Number, id: true },
       raw: Object,
-      createAt: Date
+      createAt: Date,
     })
 
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
-      content: String
+      content: String,
     })
 
     Post.greet = function (msg, cb) {
@@ -60,35 +60,34 @@ describe('loopback json api remote methods', function () {
 
     Post.remoteMethod('greet', {
       accepts: { arg: 'msg', type: 'string' },
-      returns: { arg: 'greeting', type: 'string' }
+      returns: { arg: 'greeting', type: 'string' },
     })
 
     Post.remoteMethod('last', {
       returns: { root: true },
-      http: { verb: 'get' }
+      http: { verb: 'get' },
     })
 
     Post.remoteMethod('autocomplete', {
       jsonapi: false,
       accepts: { arg: 'q', type: 'string', http: { source: 'query' } },
       returns: { root: true, type: 'array' },
-      http: { path: '/autocomplete', verb: 'get' }
+      http: { path: '/autocomplete', verb: 'get' },
     })
 
     Post.remoteMethod('prototype.findArchives', {
       jsonapi: true,
       returns: { root: true, type: 'archive' },
-      http: { path: '/archives' }
+      http: { path: '/archives' },
     })
 
     app.model(Post)
     app.model(Archive)
     app.use(loopback.rest())
 
-    Promise.all([Archive.create(archiveData), Post.create(postData)])
-      .then(function () {
-        done()
-      })
+    Promise.all([Archive.create(archiveData), Post.create(postData)]).then(function () {
+      done()
+    })
   })
 
   describe('for application/json', function () {
@@ -134,7 +133,7 @@ describe('loopback json api remote methods', function () {
       JSONAPIComponent(app, {
         handleCustomRemoteMethods: true,
         exclude: [{ methods: ['last', 'autocomplete', 'archives'] }],
-        include: [{ methods: 'last' }]
+        include: [{ methods: 'last' }],
       })
     })
 
@@ -147,7 +146,7 @@ describe('loopback json api remote methods', function () {
     beforeEach(function () {
       JSONAPIComponent(app, {
         handleCustomRemoteMethods: false,
-        include: [{ methods: 'last' }]
+        include: [{ methods: 'last' }],
       })
     })
 
@@ -157,77 +156,74 @@ describe('loopback json api remote methods', function () {
   })
 
   /* Static test */
-  function testAutocompleteJsonAPI () {
-    it(
-      'GET /posts/autocomplete should return an array with raw format (`jsonapi: false` has precedence)',
-      function (done) {
-        request(app)
-          .get('/posts/autocomplete')
-          .expect(200)
-          .end(function (err, res) {
-            expect(err).to.equal(null)
-            expect(res.body).to.deep.equal(autocompleteTitleData)
-            done()
-          })
-      }
-    )
-  }
-
-  /* Static test */
-  function testArchivesJsonAPI () {
-    it(
-      'GET /posts/1/archives should return a JSONApi list of Archive (`jsonapi: true` has precedence)',
-      function (done) {
-        request(app)
-          .get('/posts/1/archives')
-          .expect(200)
-          .end(function (err, res) {
-            expect(err).to.equal(null)
-            expect(res.body).to.be.an('object')
-            expect(res.body.data).to.be.an('array').with.lengthOf(1)
-            expect(res.body.data[0].type).to.equal('archives')
-            expect(res.body.data[0].id).to.equal(archiveData.id + '')
-            expect(res.body.data[0].attributes).to.deep.equal({
-              raw: archiveData.raw,
-              createdAt: archiveData.createdAt
-            })
-
-            done()
-          })
-      }
-    )
-  }
-
-  /* Static test */
-  function testLastJsonAPI () {
-    it('GET /posts/last should return a JSONApi Post', function (done) {
-      request(app).get('/posts/last').expect(200).end(function (err, res) {
-        expect(err).to.equal(null)
-
-        expect(res.body.data).to.be.an('object')
-        expect(res.body.data.id).to.equal(postData.id + '')
-        expect(res.body.data.type).to.equal('posts')
-        expect(res.body.data.attributes).to.deep.equal({
-          title: postData.title,
-          content: postData.content
+  function testAutocompleteJsonAPI() {
+    it('GET /posts/autocomplete should return an array with raw format (`jsonapi: false` has precedence)', function (done) {
+      request(app)
+        .get('/posts/autocomplete')
+        .expect(200)
+        .end(function (err, res) {
+          expect(err).to.equal(null)
+          expect(res.body).to.deep.equal(autocompleteTitleData)
+          done()
         })
-
-        done()
-      })
     })
   }
 
   /* Static test */
-  function testLastRaw () {
-    it(
-      'GET /posts/last should return a raw Post (exclude is more important than include and handleCustomRemoteMethods)',
-      function (done) {
-        request(app).get('/posts/last').expect(200).end(function (err, res) {
+  function testArchivesJsonAPI() {
+    it('GET /posts/1/archives should return a JSONApi list of Archive (`jsonapi: true` has precedence)', function (done) {
+      request(app)
+        .get('/posts/1/archives')
+        .expect(200)
+        .end(function (err, res) {
+          expect(err).to.equal(null)
+          expect(res.body).to.be.an('object')
+          expect(res.body.data).to.be.an('array').with.lengthOf(1)
+          expect(res.body.data[0].type).to.equal('archives')
+          expect(res.body.data[0].id).to.equal(archiveData.id + '')
+          expect(res.body.data[0].attributes).to.deep.equal({
+            raw: archiveData.raw,
+            createdAt: archiveData.createdAt,
+          })
+
+          done()
+        })
+    })
+  }
+
+  /* Static test */
+  function testLastJsonAPI() {
+    it('GET /posts/last should return a JSONApi Post', function (done) {
+      request(app)
+        .get('/posts/last')
+        .expect(200)
+        .end(function (err, res) {
+          expect(err).to.equal(null)
+
+          expect(res.body.data).to.be.an('object')
+          expect(res.body.data.id).to.equal(postData.id + '')
+          expect(res.body.data.type).to.equal('posts')
+          expect(res.body.data.attributes).to.deep.equal({
+            title: postData.title,
+            content: postData.content,
+          })
+
+          done()
+        })
+    })
+  }
+
+  /* Static test */
+  function testLastRaw() {
+    it('GET /posts/last should return a raw Post (exclude is more important than include and handleCustomRemoteMethods)', function (done) {
+      request(app)
+        .get('/posts/last')
+        .expect(200)
+        .end(function (err, res) {
           expect(err).to.equal(null)
           expect(res.body).to.deep.equal(postData)
           done()
         })
-      }
-    )
+    })
   }
 })

@@ -11,7 +11,7 @@ module.exports = function (app) {
             port: s.address().port,
             path,
             headers: options.headers || {},
-            method: 'POST'
+            method: 'POST',
           },
           function (res) {
             res.setEncoding('utf8')
@@ -23,7 +23,7 @@ module.exports = function (app) {
               res.body = JSON.parse(res.rawData)
               cb(null, res)
             })
-          }
+          },
         )
         req.on('error', function (err) {
           cb(err)
@@ -32,6 +32,6 @@ module.exports = function (app) {
         req.write(postData)
         req.end()
       })
-    }
+    },
   }
 }
