@@ -1,13 +1,13 @@
 # loopback-component-jsonapi
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/digitalsadhu/loopback-component-jsonapi.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/mediasuitenz/loopback-component-jsonapi.svg)](https://greenkeeper.io/)
 
-[![Join the chat at https://gitter.im/digitalsadhu/loopback-component-jsonapi](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/digitalsadhu/loopback-component-jsonapi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/digitalsadhu/loopback-component-jsonapi.svg)](https://travis-ci.org/digitalsadhu/loopback-component-jsonapi)
+[![Join the chat at https://gitter.im/mediasuitenz/loopback-component-jsonapi](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mediasuitenz/loopback-component-jsonapi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/mediasuitenz/loopback-component-jsonapi.svg)](https://travis-ci.org/mediasuitenz/loopback-component-jsonapi)
 [![npm version](https://badge.fury.io/js/loopback-component-jsonapi.svg)](http://badge.fury.io/js/loopback-component-jsonapi)
-[![Dependency Status](https://david-dm.org/digitalsadhu/loopback-component-jsonapi.svg)](https://david-dm.org/digitalsadhu/loopback-component-jsonapi)
-[![devDependency Status](https://david-dm.org/digitalsadhu/loopback-component-jsonapi/dev-status.svg)](https://david-dm.org/digitalsadhu/loopback-component-jsonapi#info=devDependencies)
-[![Coverage Status](https://coveralls.io/repos/github/digitalsadhu/loopback-component-jsonapi/badge.svg?branch=master)](https://coveralls.io/github/digitalsadhu/loopback-component-jsonapi?branch=master)
+[![Dependency Status](https://david-dm.org/mediasuitenz/loopback-component-jsonapi.svg)](https://david-dm.org/mediasuitenz/loopback-component-jsonapi)
+[![devDependency Status](https://david-dm.org/mediasuitenz/loopback-component-jsonapi/dev-status.svg)](https://david-dm.org/mediasuitenz/loopback-component-jsonapi#info=devDependencies)
+[![Coverage Status](https://coveralls.io/repos/github/mediasuitenz/loopback-component-jsonapi/badge.svg?branch=master)](https://coveralls.io/github/mediasuitenz/loopback-component-jsonapi?branch=master)
 
 [jsonapi.org](http://jsonapi.org/) support for loopback.
 
@@ -40,7 +40,7 @@ We have created a sample project using [EmberJS](http://emberjs.com), [Loopback]
 
 ## Helping out
 
-We are VERY interested in help. Get in touch via the [issue tracker](https://github.com/digitalsadhu/loopback-component-jsonapi/issues)
+We are VERY interested in help. Get in touch via the [issue tracker](https://github.com/mediasuitenz/loopback-component-jsonapi/issues)
 Please read the following about contributing:
 
 ### Semantic Release
@@ -54,29 +54,22 @@ A. If you are fixing a bug prefix your commit message with `fix(<thing being fix
 B. If you are adding a non breaking feature, prefix your commit with `feat(<name of feature goes here>):`
 C. If you are making a breaking change of any kind, prefix additional information on the 3rd line of the commit message with: `BREAKING CHANGE:`
 See examples of this on the [Semantic Release](https://github.com/semantic-release/semantic-release) github pages.
-And don't hesitate to reach out on our [issue tracker](https://github.com/digitalsadhu/loopback-component-jsonapi/issues)
+And don't hesitate to reach out on our [issue tracker](https://github.com/mediasuitenz/loopback-component-jsonapi/issues)
 if you want further clarification.
 
-### Standard js and "prettier standard"
+### Formatting
 
-This project is follows the [Standard js](https://standardjs.com/) styleguide. Linting happens on CI and any time you run tests via `npm test`
-You can run the linting on its own with `npm run lint`
-
-Additionally, code formatting is done whenever you run git commit. This is made possibly by [lint-staged](https://github.com/okonet/lint-staged) and [husky](https://github.com/typicode/husky) with actual formatting done by
-[prettier](https://github.com/prettier/prettier)
+This project follows the [Prettier](https://prettier.io/) style. You can run the linting on its own with `npm run lint`
 
 ### Pull requests and code review
 
-All code is reviewed by one or more of the project maintainers before merging. Before becoming a maintainer, contributers
-need to fork the master branch of this repo, make their changes and submit a pull request.
+All code is reviewed by one or more of the project maintainers before merging. Before becoming a maintainer, contributors need to fork the master branch of this repo, make their changes and submit a pull request.
 
-Once a contributor becomes a maintainer, it is preferred that they create new branches on the loopback-component-jsonapi
-repo and submit those as pull requests
+Once a contributor becomes a maintainer, it is preferred that they create new branches on the loopback-component-jsonapi repo and submit those as pull requests
 
 ### Tests
 
-We take testing seriously. The project contains over 200 tests at time of writing this. In most cases we wont merge
-anything without tests. (Within reason of course)
+We take testing seriously. The project contains over 200 tests at time of writing this. In most cases we won't merge anything without tests. (Within reason of course)
 
 ### Project maintainers
 
@@ -147,7 +140,7 @@ Example:
 
 ### restApiRoot
 
-Url prefix to be used in conjunction with host and resource paths. eg. http://127.0.0.1:3214/api/people
+URL prefix to be used in conjunction with host and resource paths. e.g. http://127.0.0.1:3214/api/people
 
 #### example
 
@@ -164,10 +157,10 @@ Url prefix to be used in conjunction with host and resource paths. eg. http://12
 
 ### host
 
-The url of the application, to be used when constructing links to relationships. Useful where the service is proxied and the application believes
-it is running on a different url to that seen by the consuming service.
+The URL of the application, to be used when constructing links to relationships. Useful where the service is proxied, and the application believes
+it is running on a different URL to that seen by the consuming service.
 
-#### example
+#### Example
 
 ```js
 {
@@ -184,7 +177,7 @@ it is running on a different url to that seen by the consuming service.
 
 Whether the component should be enabled or disabled. Defaults to `true`, flip it to `false` if you need to turn the component off without removing the configuration for some reason.
 
-#### example
+#### Example
 
 ```js
 {
@@ -204,7 +197,7 @@ register a custom error handler which always returns errors in JSON API complian
 format. Validation errors include the correct properties in order to work
 out of the box with EmberJS.
 
-#### example
+#### Example
 
 ```js
 {
@@ -224,7 +217,7 @@ response. It will be stored under the `source.stack` key.
 
 **Please be careful, this option should never be enabled in a production environment. Doing so can expose sensitive data.**
 
-#### example
+#### Example
 
 ```js
 {
@@ -247,7 +240,7 @@ This option can be overridden in any of the following ways:
 2. Globally adding the remote method to the component's exclude array.
 3. Globally adding the remote method to the component's include array.
 
-#### example
+#### Example
 
 ```js
 {
@@ -270,7 +263,7 @@ all methods specified on all models will not be serialized or deserialized using
 "model" and "methods" keys are used then the specific combination of model and methods
 specified will not be serialized or deserialized using JSON API.
 
-#### example
+#### ~example
 
 ```js
 {
@@ -290,7 +283,7 @@ specified will not be serialized or deserialized using JSON API.
 
 #### Note
 
-The default behavior is to modify (serialize to JSON API) the output of the following CRUD methods on all models:
+The default behaviour is to modify (serialize to JSON API) the output of the following CRUD methods on all models:
 
 - `find`
 - `create`
@@ -298,12 +291,12 @@ The default behavior is to modify (serialize to JSON API) the output of the foll
 - `deleteById`
 - `findById`
 
-In addition the following wild card method names are matched and the output is modified in order to handle relationships eg. `/api/posts/1/comments`
+In addition, the following wild card method names are matched, and the output is modified in order to handle relationships e.g. `/api/posts/1/comments`
 
 - `__get__.*`
 - `__findRelationships__.*`
 
-The default behavior is to modify (deserialize from JSON API) the input to the following CRUD methods on all models:
+The default behaviour is to modify (deserialize from JSON API) the input to the following CRUD methods on all models:
 
 - `create`
 - `updateAttributes`
@@ -319,9 +312,9 @@ the specified methods. If a combination of
 specified will be serialized or deserialized using JSON API.
 
 Note: objects returned from a remote method that will be JSON API serialized MUST include
-an id property. id property can be null.
+an id property. The Id property can be null.
 
-#### example
+#### Example
 
 ```js
 {
@@ -353,7 +346,7 @@ that are not JSON API relevant. These methods are:
 You can use this option to prevent `loopback-component-jsonapi` from doing so. These methods are not modified by the component. Their output
 will not be in a JSON API compliant format.
 
-#### example
+#### Example
 
 ```js
 {
@@ -373,7 +366,7 @@ All model properties except the primary key and any foreign keys will be copied 
 the attributes object before output. If you wish to limit which properties will
 be output as attributes you can specify a whitelist of attributes for each type.
 
-#### example
+#### Example
 
 ```js
 {
@@ -398,7 +391,7 @@ The attributes arrays are keyed by type not by model name. Type is the term used
 Allows configuration of whether the component should expose foreign keys (which the jsonapi spec considers
 implementation details) from the attributes hash.
 
-#### examples
+#### Examples
 
 Always expose foreign keys for all models
 
@@ -432,7 +425,7 @@ Only expose foreign keys for the comment model
 }
 ```
 
-Only expose foreign keys for the comment model findById method. eg. `GET /api/comments/1`
+Only expose foreign keys for the comment model findById method. e.g. `GET /api/comments/1`
 
 ```js
 {
@@ -460,7 +453,7 @@ Sometimes you need to be able to control when a custom remote method should be h
 
 This option takes precedence and sets the component to handle or not handle the custom remote method.
 
-#### examples
+#### Examples
 
 ```js
 Post.remoteMethod('greet', {
@@ -478,19 +471,19 @@ Post.remoteMethod('greet', {
 })
 ```
 
-Ensures that the response from Post.greet will never follow JSONApi format.
+Ensures that the response from `Post.greet` will never follow JSONApi format.
 
 #### Note
 
-You must always pass `root: true` to the `returns` object when using `loopback-component-jsonapi`. This is especialy important when you expect the response to be an array.
+You must always pass `root: true` to the `returns` object when using `loopback-component-jsonapi`. This is especially important when you expect the response to be an array.
 
 ### Overriding serialization type
 
-When `loopback-component-jsonapi` serializes a custom remote method, by default it will assume that the data being serialized is of the same type as the model the custom remote method is being defined on. Eg. For a remote method on a `Comment` model, it will be assumed that the data being returned from the remote method will be a comment or an array of comments. When this is not the case, you will need to set the type property in the `returns` object in the remote method definition.
+When `loopback-component-jsonapi` serializes a custom remote method, by default it will assume that the data being serialized is of the same type as the model the custom remote method is being defined on. e.g. For a remote method on a `Comment` model, it will be assumed that the data being returned from the remote method will be a comment or an array of comments. When this is not the case, you will need to set the type property in the `returns` object in the remote method definition.
 
 _If an unknown type or no type are given, the model name will be used._
 
-#### example
+#### Example
 
 ```js
 Post.remoteMethod('prototype.ownComments', {
@@ -503,15 +496,15 @@ Post.remoteMethod('prototype.ownComments', {
 
 For occasions where you need greater control over the serialization process, you can implement a custom serialization function for each model as needed. This function will be used instead of the regular serialization process.
 
-#### example
+#### Example
 
 ```js
 module.exports = function (MyModel) {
   MyModel.jsonApiSerialize = function (options, callback) {
     // either return an error
-    var err = new Error("Unable to serialize record");
-    err.status = 500;
-    cb(err);
+    var err = new Error('Unable to serialize record')
+    err.status = 500
+    cb(err)
 
     // or return serialized records
     if (Array.isArray(options.records)) {
@@ -519,9 +512,9 @@ module.exports = function (MyModel) {
     } else {
       // serialize a single record
     }
-    cb(null, options);
-  };
-};
+    cb(null, options)
+  }
+}
 ```
 
 ##### function parameters
@@ -533,51 +526,51 @@ module.exports = function (MyModel) {
 
 For occasions where you need greater control over the deserialization process, you can implement a custom deserialization function for each model as needed. This function will be used instead of the regular deserialization process.
 
-#### example
+#### Example
 
 ```js
 module.exports = function (MyModel) {
   MyModel.jsonApiDeserialize = function (options, callback) {
     // either return an error
-    var err = new Error("Unable to deserialize record");
-    err.status = 500;
-    cb(err);
+    var err = new Error('Unable to deserialize record')
+    err.status = 500
+    cb(err)
 
     // or
     // options.data is the raw data
     // options.result needs to be populated with deserialization result
-    options.result = options.data.data.attributes;
+    options.result = options.data.data.attributes
 
-    cb(null, options);
-  };
-};
+    cb(null, options)
+  }
+}
 ```
 
 ## Custom Errors
 
 Generic errors respond with a 500, but sometimes you want to have a better control over the error that is returned to the client, taking advantages of fields provided by JSONApi.
 
-**It is recommended that you extend the base Error constructor before throwing errors. Eg. BadRequestError**
+**It is recommended that you extend the base Error constructor before throwing errors. e.g. BadRequestError**
 
 `meta` and `source` fields needs to be objects.
 
-#### example
+#### Example
 
 ```js
 module.exports = function (MyModel) {
   MyModel.find = function () {
-    var err = new Error("April 1st, 1998");
+    var err = new Error('April 1st, 1998')
 
-    err.status = 418;
-    err.name = "I'm a teapot";
-    err.source = { model: "Post", method: "find" };
-    err.detail = "April 1st, 1998";
-    err.code = "i'm a teapot";
-    err.meta = { rfc: "RFC2324" };
+    err.status = 418
+    err.name = "I'm a teapot"
+    err.source = { model: 'Post', method: 'find' }
+    err.detail = 'April 1st, 1998'
+    err.code = "i'm a teapot"
+    err.meta = { rfc: 'RFC2324' }
 
-    throw err;
-  };
-};
+    throw err
+  }
+}
 
 // This will be returned as :
 // {
@@ -606,7 +599,7 @@ module.exports = function (MyModel) {
 Resource type. Originally calculated from a models plural. Is used in the default
 serialization process to set the type property for each model in a JSON API response.
 
-- eg. `posts`
+- e.g. `posts`
 
 ###### `options.method`
 
@@ -614,7 +607,7 @@ The method that was called to get the data for the current request. This is not
 used in the serialization process but is provided for custom hook and serialization
 context.
 
-- Eg. `create`, `updateAttributes`
+- E.g. `create`, `updateAttributes`
 
 ###### `options.primaryKeyField`
 
@@ -624,30 +617,30 @@ The name of the property that is the primary key for the model. This is usually 
 ###### `options.requestedIncludes`
 
 The relationships that the user has requested be side loaded with the request.
-For example, for the request `GET /api/posts?include=comments` options.requestedIncludes
+For example, for the request `GET /api/posts?include=comments` `options.requestedIncludes`
 would be `'comments'`.
 
 - Type: `string` or `array`
-- eg: `'comments'` or `['posts', 'comments']`
+- e.g.: `'comments'` or `['posts', 'comments']`
 
 ###### `options.host`
 
-The host part of the url including any port information.
+The host part of the URL including any port information.
 
-- eg. `http://localhost:3000`
+- e.g. `http://localhost:3000`
 
 ###### `options.restApiRoot`
 
-The api prefix used before resource information. Can be used in conjunction with
-`options.host` and `options.type` to build up the full url for a resource.
+The API prefix used before resource information. Can be used in conjunction with
+`options.host` and `options.type` to build up the full URL for a resource.
 
-- eg. `/api`
+- e.g. `/api`
 
 ###### `options.topLevelLinks`
 
 Links object used at the top level of the JSON API response structure.
 
-- eg. `{links: {self: 'http://localhost:3000/api/posts'}}`
+- e.g. `{links: {self: 'http://localhost:3000/api/posts'}}`
 
 ###### `options.dataLinks`
 
@@ -655,7 +648,7 @@ Links object used to generate links for individual resource items. The structure
 and object with JSON API link keys such as `self` or `related` that are defined as
 a function that will be called for each resource.
 
-Eg.
+e.g.
 
 ```js
 options.dataLinks: {
@@ -683,7 +676,7 @@ definition. An object with relationship name keys, each having properties:
 This information is used to build relationship urls and even setup side-loaded
 data correctly during the serialization process.
 
-eg.
+e.g.
 
 ```js
 options.relationships = {
@@ -748,18 +741,18 @@ parameter.
 module.exports = function (MyModel) {
   MyModel.beforeJsonApiDeserialize = function (options, callback) {
     // either return an error
-    var err = new Error("Unwilling to deserialize record");
-    err.status = 500;
-    callback(err);
+    var err = new Error('Unwilling to deserialize record')
+    err.status = 500
+    callback(err)
 
     // or return modified data
-    options.data.data.attributes.title = "modified title";
+    options.data.data.attributes.title = 'modified title'
 
     // returned options.data will be deserialized by either the default deserialization process
     // or by a custom deserialize function if one is present on the model.
-    callback(null, options);
-  };
-};
+    callback(null, options)
+  }
+}
 ```
 
 ### afterJsonApiDeserialize
@@ -778,16 +771,16 @@ an error as the first argument or the modified options object as the second para
 module.exports = function (MyModel) {
   MyModel.afterJsonApiDeserialize = function (options, callback) {
     // either return an error
-    var err = new Error("something went wrong!");
-    err.status = 500;
-    callback(err);
+    var err = new Error('something went wrong!')
+    err.status = 500
+    callback(err)
 
     // or return modified data prior to model being saved with options.result
-    options.result.title = "modified title";
+    options.result.title = 'modified title'
 
-    callback(null, options);
-  };
-};
+    callback(null, options)
+  }
+}
 ```
 
 ##### function parameters
@@ -818,9 +811,9 @@ parameter.
 module.exports = function (MyModel) {
   MyModel.beforeJsonApiSerialize = function (options, callback) {
     // either return an error
-    var err = new Error("Unable to serialize record");
-    err.status = 500;
-    callback(err);
+    var err = new Error('Unable to serialize record')
+    err.status = 500
+    callback(err)
 
     // or return modified records
     if (Array.isArray(options.results)) {
@@ -830,9 +823,9 @@ module.exports = function (MyModel) {
     }
     // returned options.records will be serialized by either the default serialization process
     // or by a custom serialize function (described above) if one is present on the model.
-    callback(null, options);
-  };
-};
+    callback(null, options)
+  }
+}
 ```
 
 ##### function parameters
@@ -851,10 +844,10 @@ change the resource type that will be output.
 ```js
 module.exports = function (MyModel) {
   MyModel.beforeJsonApiSerialize = function (options, callback) {
-    options.type = "mycustommodels";
-    cb(null, options);
-  };
-};
+    options.type = 'mycustommodels'
+    cb(null, options)
+  }
+}
 ```
 
 ### afterJsonApiSerialize
@@ -871,9 +864,9 @@ parameter.
 module.exports = function (MyModel) {
   MyModel.afterJsonApiSerialize = function (options, callback) {
     // either return an error
-    var err = new Error("Unable to modify serialized record");
-    err.status = 500;
-    callback(err);
+    var err = new Error('Unable to modify serialized record')
+    err.status = 500
+    callback(err)
 
     // or return modified records
     if (Array.isArray(options.results)) {
@@ -882,9 +875,9 @@ module.exports = function (MyModel) {
       // modify a single serialized record
     }
     // returned options.records will be output through the api.
-    callback(null, options);
-  };
-};
+    callback(null, options)
+  }
+}
 ```
 
 ##### function parameters
