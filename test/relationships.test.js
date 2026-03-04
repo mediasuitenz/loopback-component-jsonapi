@@ -19,7 +19,7 @@ describe('loopback json api belongsTo relationships', function () {
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
-      content: String
+      content: String,
     })
     app.model(Post)
 
@@ -27,7 +27,7 @@ describe('loopback json api belongsTo relationships', function () {
       id: { type: Number, id: true },
       postId: Number,
       title: String,
-      comment: String
+      comment: String,
     })
     app.model(Comment)
     Comment.settings.plural = 'comments'
@@ -43,18 +43,18 @@ describe('loopback json api belongsTo relationships', function () {
       Comment.create(
         {
           title: 'my comment',
-          comment: 'my post comment'
+          comment: 'my post comment',
         },
         function (err, comment) {
           expect(err).to.equal(null)
           comment.post.create(
             {
               title: 'My post',
-              content: 'My post content'
+              content: 'My post content',
             },
-            done
+            done,
           )
-        }
+        },
       )
     })
 
@@ -67,19 +67,19 @@ describe('loopback json api belongsTo relationships', function () {
               type: 'posts',
               attributes: {
                 title: 'my post',
-                content: 'my post content'
+                content: 'my post content',
               },
               relationships: {
                 comments: {
                   data: [
                     {
                       type: 'comments',
-                      id: 1
-                    }
-                  ]
-                }
-              }
-            }
+                      id: 1,
+                    },
+                  ],
+                },
+              },
+            },
           })
           .set('Accept', 'application/vnd.api+json')
           .set('Content-Type', 'application/json')
@@ -96,50 +96,47 @@ describe('loopback json api belongsTo relationships', function () {
       })
     })
 
-    describe(
-      'delete linkages to models as part of an update operation',
-      function () {
-        it('should update model linkages', function (done) {
-          request(app)
-            .patch('/posts/1')
-            .send({
-              data: {
-                type: 'posts',
-                id: '1',
-                attributes: {
-                  title: 'my post',
-                  content: 'my post content'
+    describe('delete linkages to models as part of an update operation', function () {
+      it('should update model linkages', function (done) {
+        request(app)
+          .patch('/posts/1')
+          .send({
+            data: {
+              type: 'posts',
+              id: '1',
+              attributes: {
+                title: 'my post',
+                content: 'my post content',
+              },
+              relationships: {
+                comments: {
+                  data: [],
                 },
-                relationships: {
-                  comments: {
-                    data: []
-                  }
-                }
-              }
-            })
-            .set('Accept', 'application/vnd.api+json')
-            .set('Content-Type', 'application/json')
-            .end(function (err, res) {
+              },
+            },
+          })
+          .set('Accept', 'application/vnd.api+json')
+          .set('Content-Type', 'application/json')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            Comment.findById(1, function (err, comment) {
               expect(err).to.equal(null)
-              Comment.findById(1, function (err, comment) {
-                expect(err).to.equal(null)
-                expect(comment).not.to.equal(null)
-                expect(comment.postId).to.equal(null)
-                done()
-              })
+              expect(comment).not.to.equal(null)
+              expect(comment.postId).to.equal(null)
+              done()
             })
-        })
-      }
-    )
+          })
+      })
+    })
 
     describe('replace linkages as part of an update operation', function () {
       beforeEach(function (done) {
         Comment.create(
           {
             title: 'my comment 2',
-            comment: 'my post comment 2'
+            comment: 'my post comment 2',
           },
-          done
+          done,
         )
       })
       it('should update model linkages', function (done) {
@@ -153,11 +150,11 @@ describe('loopback json api belongsTo relationships', function () {
                 comments: {
                   data: [
                     { type: 'comments', id: 1 },
-                    { type: 'comments', id: 2 }
-                  ]
-                }
-              }
-            }
+                    { type: 'comments', id: 2 },
+                  ],
+                },
+              },
+            },
           })
           .set('Accept', 'application/vnd.api+json')
           .set('Content-Type', 'application/json')
@@ -173,44 +170,41 @@ describe('loopback json api belongsTo relationships', function () {
       })
     })
 
-    describe(
-      'delete linkages to models as part of an update operation',
-      function () {
-        it('should update model linkages', function (done) {
-          request(app)
-            .patch('/posts/1')
-            .send({
-              data: {
-                type: 'posts',
-                id: '1',
-                attributes: { title: 'my post', content: 'my post content' },
-                relationships: { comments: { data: [] } }
-              }
-            })
-            .set('Accept', 'application/vnd.api+json')
-            .set('Content-Type', 'application/json')
-            .end(function (err, res) {
+    describe('delete linkages to models as part of an update operation', function () {
+      it('should update model linkages', function (done) {
+        request(app)
+          .patch('/posts/1')
+          .send({
+            data: {
+              type: 'posts',
+              id: '1',
+              attributes: { title: 'my post', content: 'my post content' },
+              relationships: { comments: { data: [] } },
+            },
+          })
+          .set('Accept', 'application/vnd.api+json')
+          .set('Content-Type', 'application/json')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            Comment.findById(1, function (err, comment) {
               expect(err).to.equal(null)
-              Comment.findById(1, function (err, comment) {
-                expect(err).to.equal(null)
-                expect(comment).not.to.equal(null)
-                expect(comment.postId).to.equal(null)
+              expect(comment).not.to.equal(null)
+              expect(comment.postId).to.equal(null)
 
-                done()
-              })
+              done()
             })
-        })
-      }
-    )
+          })
+      })
+    })
 
     describe('replace linkages as part of an update operation', function () {
       beforeEach(function (done) {
         Post.create(
           {
             name: 'my post',
-            content: 'my post content'
+            content: 'my post content',
           },
-          done
+          done,
         )
       })
       it('should not create new record', function (done) {
@@ -224,11 +218,11 @@ describe('loopback json api belongsTo relationships', function () {
                 comments: {
                   data: [
                     { type: 'comments', id: 1 },
-                    { type: 'comments', id: 2 }
-                  ]
-                }
-              }
-            }
+                    { type: 'comments', id: 2 },
+                  ],
+                },
+              },
+            },
           })
           .set('Accept', 'application/vnd.api+json')
           .set('Content-Type', 'application/json')
@@ -250,52 +244,50 @@ describe('loopback json api belongsTo relationships', function () {
           [
             {
               title: 'my comment 2',
-              comment: 'my post comment 2'
+              comment: 'my post comment 2',
             },
             {
               title: 'my comment 3',
-              comment: 'my post comment 3'
-            }
+              comment: 'my post comment 3',
+            },
           ],
           function (er, comments) {
             comments[0].post.create({
               id: '3',
               title: 'My post 2',
-              content: 'My post content 2'
+              content: 'My post content 2',
             })
             comments[1].post.create(
               {
                 id: '2',
                 title: 'My post 2',
-                content: 'My post content 2'
+                content: 'My post content 2',
               },
-              done
+              done,
             )
-          }
+          },
         )
       })
 
-      it('should only update the foreign key on the belongsTo model', function (
-        done
-      ) {
+      it('should only update the foreign key on the belongsTo model', function (done) {
         request(app)
           .patch('/comments/3')
           .send({
             data: {
               id: 3,
               attributes: {
-                name: 'enter'
+                name: 'enter',
               },
               relationships: {
                 post: {
                   data: {
                     type: 'posts',
-                    id: 3
-                  }
-                }
+                    id: 3,
+                  },
+                },
               },
-              type: 'comments'
-            }
+              type: 'comments',
+            },
           })
           .set('Accept', 'application/vnd.api+json')
           .set('Content-Type', 'application/json')
@@ -324,14 +316,14 @@ describe('loopback json api hasOne relationships', function () {
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
-      content: String
+      content: String,
     })
     app.model(Post)
 
     Person = ds.createModel('person', {
       id: { type: Number, id: true },
       postId: Number,
-      name: String
+      name: String,
     })
     Person.settings.plural = 'people'
     app.model(Person)
@@ -347,17 +339,17 @@ describe('loopback json api hasOne relationships', function () {
       Post.create(
         {
           name: 'my post',
-          content: 'my post content'
+          content: 'my post content',
         },
         function (err, post) {
           expect(err).to.equal(null)
           post.author.create(
             {
-              name: 'Bob Jones'
+              name: 'Bob Jones',
             },
-            done
+            done,
           )
-        }
+        },
       )
     })
 
@@ -367,18 +359,18 @@ describe('loopback json api hasOne relationships', function () {
           data: {
             type: 'posts',
             attributes: { title: 'my post', content: 'my post content' },
-            relationships: { author: { data: { type: 'people', id: 1 } } }
-          }
+            relationships: { author: { data: { type: 'people', id: 1 } } },
+          },
         }
         return request(app)
           .post('/posts')
           .send(payload)
           .set('Accept', 'application/vnd.api+json')
           .set('Content-Type', 'application/json')
-          .then(res => {
+          .then((res) => {
             expect(res.body).not.to.have.keys('errors')
             expect(res.status).to.equal(201)
-            return Person.findById(1).then(person => {
+            return Person.findById(1).then((person) => {
               expect(person).not.to.equal(null)
               expect(person.postId).to.equal(Number(res.body.data.id))
             })
@@ -386,36 +378,33 @@ describe('loopback json api hasOne relationships', function () {
       })
     })
 
-    describe(
-      'delete linkages to models as part of an update operation',
-      function () {
-        it('should update model linkages', function (done) {
-          request(app)
-            .patch('/posts/1')
-            .send({
-              data: {
-                type: 'posts',
-                id: 1,
-                attributes: { title: 'my post', content: 'my post content' },
-                relationships: { author: { data: null } }
-              }
-            })
-            .set('Accept', 'application/vnd.api+json')
-            .set('Content-Type', 'application/json')
-            .end(function (err, res) {
+    describe('delete linkages to models as part of an update operation', function () {
+      it('should update model linkages', function (done) {
+        request(app)
+          .patch('/posts/1')
+          .send({
+            data: {
+              type: 'posts',
+              id: 1,
+              attributes: { title: 'my post', content: 'my post content' },
+              relationships: { author: { data: null } },
+            },
+          })
+          .set('Accept', 'application/vnd.api+json')
+          .set('Content-Type', 'application/json')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            expect(res.body).not.to.have.keys('errors')
+            expect(res.status).to.equal(200)
+            Person.findById(1, function (err, person) {
               expect(err).to.equal(null)
-              expect(res.body).not.to.have.keys('errors')
-              expect(res.status).to.equal(200)
-              Person.findById(1, function (err, person) {
-                expect(err).to.equal(null)
-                expect(person).not.to.equal(null)
-                expect(person.postId).to.equal(null)
-                done()
-              })
+              expect(person).not.to.equal(null)
+              expect(person.postId).to.equal(null)
+              done()
             })
-        })
-      }
-    )
+          })
+      })
+    })
 
     describe('replace linkages as part of an update operation', function () {
       beforeEach(() => {
@@ -428,25 +417,25 @@ describe('loopback json api hasOne relationships', function () {
             id: '1',
             attributes: {
               title: 'my post',
-              content: 'my post content'
+              content: 'my post content',
             },
             relationships: {
               author: {
                 data: {
                   type: 'people',
-                  id: '191'
-                }
-              }
-            }
-          }
+                  id: '191',
+                },
+              },
+            },
+          },
         }
         return request(app)
           .patch('/posts/1')
           .send(payload)
           .set('Accept', 'application/vnd.api+json')
           .set('Content-Type', 'application/json')
-          .then(res => {
-            return Person.find({ where: { postId: 1 } }).then(people => {
+          .then((res) => {
+            return Person.find({ where: { postId: 1 } }).then((people) => {
               expect(people.length).to.equal(1)
               expect(people[0].id).to.equal(191)
             })
@@ -464,7 +453,7 @@ describe('loopback json api hasMany relationships', function () {
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
-      content: String
+      content: String,
     })
     app.model(Post)
 
@@ -472,7 +461,7 @@ describe('loopback json api hasMany relationships', function () {
       id: { type: Number, id: true },
       postId: Number,
       title: String,
-      comment: String
+      comment: String,
     })
     app.model(Comment)
     Post.hasMany(Comment, { as: 'comments', foreignKey: 'postId' })
@@ -487,18 +476,18 @@ describe('loopback json api hasMany relationships', function () {
       Post.create(
         {
           title: 'my post',
-          content: 'my post content'
+          content: 'my post content',
         },
         function (err, post) {
           expect(err).to.equal(null)
           post.comments.create(
             {
               title: 'My comment',
-              comment: 'My comment text'
+              comment: 'My comment text',
             },
-            done
+            done,
           )
-        }
+        },
       )
     })
 
@@ -512,10 +501,10 @@ describe('loopback json api hasMany relationships', function () {
               attributes: { title: 'my post', content: 'my post content' },
               relationships: {
                 comments: {
-                  data: [{ type: 'comments', id: 1 }]
-                }
-              }
-            }
+                  data: [{ type: 'comments', id: 1 }],
+                },
+              },
+            },
           })
           .set('Accept', 'application/vnd.api+json')
           .set('Content-Type', 'application/json')
@@ -531,43 +520,40 @@ describe('loopback json api hasMany relationships', function () {
       })
     })
 
-    describe(
-      'delete linkages to models as part of an update operation',
-      function () {
-        it('should update model linkages', function (done) {
-          request(app)
-            .patch('/posts/1')
-            .send({
-              data: {
-                type: 'posts',
-                id: '1',
-                attributes: { title: 'my post', content: 'my post content' },
-                relationships: { comments: { data: [] } }
-              }
-            })
-            .set('Accept', 'application/vnd.api+json')
-            .set('Content-Type', 'application/json')
-            .end(function (err, res) {
+    describe('delete linkages to models as part of an update operation', function () {
+      it('should update model linkages', function (done) {
+        request(app)
+          .patch('/posts/1')
+          .send({
+            data: {
+              type: 'posts',
+              id: '1',
+              attributes: { title: 'my post', content: 'my post content' },
+              relationships: { comments: { data: [] } },
+            },
+          })
+          .set('Accept', 'application/vnd.api+json')
+          .set('Content-Type', 'application/json')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            Comment.findById(1, function (err, comment) {
               expect(err).to.equal(null)
-              Comment.findById(1, function (err, comment) {
-                expect(err).to.equal(null)
-                expect(comment).not.to.equal(null)
-                expect(comment.postId).to.equal(null)
-                done()
-              })
+              expect(comment).not.to.equal(null)
+              expect(comment.postId).to.equal(null)
+              done()
             })
-        })
-      }
-    )
+          })
+      })
+    })
 
     describe('replace linkages as part of an update operation', function () {
       beforeEach(function (done) {
         Comment.create(
           {
             title: 'my comment 2',
-            comment: 'my post comment 2'
+            comment: 'my post comment 2',
           },
-          done
+          done,
         )
       })
       it('should update model linkages', function (done) {
@@ -581,11 +567,11 @@ describe('loopback json api hasMany relationships', function () {
                 comments: {
                   data: [
                     { type: 'comments', id: 1 },
-                    { type: 'comments', id: 2 }
-                  ]
-                }
-              }
-            }
+                    { type: 'comments', id: 2 },
+                  ],
+                },
+              },
+            },
           })
           .set('Accept', 'application/vnd.api+json')
           .set('Content-Type', 'application/json')

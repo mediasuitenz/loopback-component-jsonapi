@@ -14,7 +14,7 @@ const linkRelatedModels = utils.linkRelatedModels
 
 let app, ds, Post, Comment, PostComment
 
-function startApp () {
+function startApp() {
   app = loopback()
   app.set('legacyExplorer', false)
   ds = loopback.createDataSource('memory')
@@ -22,7 +22,7 @@ function startApp () {
   JSONAPIComponent(app)
 }
 
-function setupHasMany () {
+function setupHasMany() {
   Post = ds.createModel('post', { title: String })
   app.model(Post)
   Comment = ds.createModel('comment', { title: String })
@@ -30,7 +30,7 @@ function setupHasMany () {
   Post.hasMany(Comment)
 }
 
-function setupHasOne () {
+function setupHasOne() {
   Post = ds.createModel('post', { title: String })
   app.model(Post)
   Comment = ds.createModel('comment', { title: String })
@@ -38,7 +38,7 @@ function setupHasOne () {
   Post.hasOne(Comment)
 }
 
-function setupBelongsTo () {
+function setupBelongsTo() {
   Post = ds.createModel('post', { title: String })
   app.model(Post)
   Comment = ds.createModel('comment', { title: String })
@@ -46,7 +46,7 @@ function setupBelongsTo () {
   Comment.belongsTo(Post)
 }
 
-function setupHasManyThrough () {
+function setupHasManyThrough() {
   Post = ds.createModel('post', { title: String })
   app.model(Post)
   PostComment = ds.createModel('postComment', { title: String })
@@ -76,27 +76,26 @@ describe('relationship utils', () => {
               data: [
                 { type: 'comments', id: 2 },
                 { type: 'comments', id: 3 },
-                { type: 'comments', id: 4 }
-              ]
-            }
-          }
-        }
+                { type: 'comments', id: 4 },
+              ],
+            },
+          },
+        },
       }
-      return Comment.create([{ postId: 1 }, { postId: 1 }, { postId: 1 }, {}])
-        .then(() => {
-          return request(app)
-            .post('/posts')
-            .send(payload)
-            .set('Accept', 'application/vnd.api+json')
-            .set('Content-Type', 'application/json')
-            .then(res => Comment.find({ where: { postId: res.body.data.id } }))
-            .then(comments => {
-              expect(comments.length).to.equal(3)
-              expect(comments[0].id).to.equal(2)
-              expect(comments[1].id).to.equal(3)
-              expect(comments[2].id).to.equal(4)
-            })
-        })
+      return Comment.create([{ postId: 1 }, { postId: 1 }, { postId: 1 }, {}]).then(() => {
+        return request(app)
+          .post('/posts')
+          .send(payload)
+          .set('Accept', 'application/vnd.api+json')
+          .set('Content-Type', 'application/json')
+          .then((res) => Comment.find({ where: { postId: res.body.data.id } }))
+          .then((comments) => {
+            expect(comments.length).to.equal(3)
+            expect(comments[0].id).to.equal(2)
+            expect(comments[1].id).to.equal(3)
+            expect(comments[2].id).to.equal(4)
+          })
+      })
     })
   })
 
@@ -106,7 +105,7 @@ describe('relationship utils', () => {
       return Comment.create([{ postId: 1 }, { postId: 1 }, { postId: 1 }, {}])
         .then(() => updateHasMany('id', 1, Comment, 'postId', [2, 3, 4]))
         .then(() => Comment.find({ where: { postId: 1 } }))
-        .then(comments => {
+        .then((comments) => {
           expect(comments.length).to.equal(3)
           expect(comments[0].id).to.equal(2)
           expect(comments[1].id).to.equal(3)
@@ -121,7 +120,7 @@ describe('relationship utils', () => {
       return Comment.create([{}, {}])
         .then(() => updateHasOne('id', 1, Comment, 'postId', 1))
         .then(() => Comment.find({ where: { postId: 1 } }))
-        .then(comments => {
+        .then((comments) => {
           expect(comments.length).to.equal(1)
           expect(comments[0].id).to.equal(1)
         })
@@ -134,7 +133,7 @@ describe('relationship utils', () => {
       return Comment.create({}, {})
         .then(() => updateBelongsTo(Comment, 'id', 1, 'postId', 1))
         .then(() => Comment.find({ where: { postId: 1 } }))
-        .then(comments => {
+        .then((comments) => {
           expect(comments.length).to.equal(1)
           expect(comments[0].id).to.equal(1)
         })
@@ -150,23 +149,12 @@ describe('relationship utils', () => {
         PostComment.create([
           { postId: 1, commentId: 1 },
           { postId: 1, commentId: 2 },
-          { postId: 1, commentId: 3 }
-        ])
+          { postId: 1, commentId: 3 },
+        ]),
       ])
-        .then(
-          () =>
-            updateHasManyThrough(
-              'id',
-              1,
-              PostComment,
-              'postId',
-              'commentId',
-              'id',
-              [2, 3, 4]
-            )
-        )
+        .then(() => updateHasManyThrough('id', 1, PostComment, 'postId', 'commentId', 'id', [2, 3, 4]))
         .then(() => PostComment.find({ where: { postId: 1 } }))
-        .then(postComments => {
+        .then((postComments) => {
           expect(postComments.length).to.equal(3)
           expect(postComments[0].id).to.equal(2)
           expect(postComments[1].id).to.equal(3)
@@ -183,7 +171,7 @@ describe('relationship utils', () => {
       return Comment.create({}, {})
         .then(() => linkRelatedModels('post', from, to))
         .then(() => Comment.find({ where: { postId: 1 } }))
-        .then(comments => {
+        .then((comments) => {
           expect(comments.length).to.equal(1)
           expect(comments[0].id).to.equal(1)
         })
@@ -195,7 +183,7 @@ describe('relationship utils', () => {
       return Comment.create([{ postId: 1 }, { postId: 1 }, { postId: 1 }, {}])
         .then(() => linkRelatedModels('comments', from, to))
         .then(() => Comment.find({ where: { postId: 1 } }))
-        .then(comments => {
+        .then((comments) => {
           expect(comments.length).to.equal(3)
           expect(comments[0].id).to.equal(2)
           expect(comments[1].id).to.equal(3)
@@ -212,12 +200,12 @@ describe('relationship utils', () => {
         PostComment.create([
           { postId: 1, commentId: 1 },
           { postId: 1, commentId: 2 },
-          { postId: 1, commentId: 3 }
-        ])
+          { postId: 1, commentId: 3 },
+        ]),
       ])
         .then(() => linkRelatedModels('comments', from, to))
         .then(() => PostComment.find({ where: { postId: 1 } }))
-        .then(postComments => {
+        .then((postComments) => {
           expect(postComments.length).to.equal(3)
           expect(postComments[0].id).to.equal(2)
           expect(postComments[1].id).to.equal(3)
@@ -231,7 +219,7 @@ describe('relationship utils', () => {
       return Comment.create([{}, {}])
         .then(() => linkRelatedModels('comment', from, to))
         .then(() => Comment.find({ where: { postId: 1 } }))
-        .then(comments => {
+        .then((comments) => {
           expect(comments.length).to.equal(1)
           expect(comments[0].id).to.equal(1)
         })
@@ -243,7 +231,7 @@ describe('relationship utils', () => {
       return Comment.create([{ postId: 1 }])
         .then(() => linkRelatedModels('comment', from, to))
         .then(() => Comment.find({ where: { postId: null } }))
-        .then(comments => {
+        .then((comments) => {
           expect(comments.length).to.equal(1)
           expect(comments[0].id).to.equal(1)
         })

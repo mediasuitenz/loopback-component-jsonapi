@@ -16,13 +16,13 @@ describe('include option', function () {
       {
         id: { type: Number, id: true },
         title: String,
-        content: String
+        content: String,
       },
       {
         scope: {
-          include: 'comments'
-        }
-      }
+          include: 'comments',
+        },
+      },
     )
     app.model(Post)
 
@@ -31,21 +31,21 @@ describe('include option', function () {
       postId: Number,
       authorId: Number,
       title: String,
-      comment: String
+      comment: String,
     })
 
     app.model(Comment)
 
     Author = ds.createModel('author', {
       id: { type: Number, id: true },
-      name: String
+      name: String,
     })
 
     app.model(Author)
 
     Category = ds.createModel('category', {
       id: { type: Number, id: true },
-      name: String
+      name: String,
     })
 
     app.model(Author)
@@ -64,58 +64,62 @@ describe('include option', function () {
       Post.create(
         {
           title: 'my post',
-          content: 'my post content'
+          content: 'my post content',
         },
         function (err, post) {
           expect(err).to.equal(null)
           post.comments.create(
             {
               title: 'My comment',
-              comment: 'My comment text'
+              comment: 'My comment text',
             },
             function () {
               post.comments.create(
                 {
                   title: 'My second comment',
-                  comment: 'My second comment text'
+                  comment: 'My second comment text',
                 },
                 function () {
                   post.author.create(
                     {
-                      name: 'Joe'
+                      name: 'Joe',
                     },
                     function () {
                       post.category.create(
                         {
-                          name: 'Programming'
+                          name: 'Programming',
                         },
-                        done
+                        done,
                       )
-                    }
+                    },
                   )
-                }
+                },
               )
-            }
+            },
           )
-        }
+        },
       )
     })
 
     describe('response', function () {
       it('should have key `included`', function (done) {
-        request(app).get('/posts/1').end(function (err, res) {
-          expect(err).to.equal(null)
-          expect(res.body.included).to.be.an('array')
-          done()
-        })
+        request(app)
+          .get('/posts/1')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            expect(res.body.included).to.be.an('array')
+            done()
+          })
       })
 
       it('attributes should not have relationship key', function (done) {
-        request(app).get('/posts/1').end(function (err, res) {
-          expect(err).to.equal(null)
-          expect(res.body.data.attributes).to.not.include.key('comments')
-          done()
-        })
+        request(app)
+          .get('/posts/1')
+          .end(function (err, res) {
+            expect(err).to.equal(null)
+            expect(res.body.data.attributes).to.not.include.key('comments')
+            done()
+          })
       })
 
       it('with include paramter should have both models', function (done) {
@@ -140,13 +144,9 @@ describe('include option', function () {
             done()
           })
       })
-      it('should include categories with empty attributes object', function (
-        done
-      ) {
+      it('should include categories with empty attributes object', function (done) {
         request(app)
-          .get(
-            '/posts/1?filter={"include":[{"relation":"category", "scope": {"fields": ["id"]}}]}'
-          )
+          .get('/posts/1?filter={"include":[{"relation":"category", "scope": {"fields": ["id"]}}]}')
           .end(function (err, res) {
             expect(err).to.equal(null)
             expect(res.body.included.length).equal(3)

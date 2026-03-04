@@ -19,7 +19,7 @@ describe('Dont override config.js ', function () {
     const ds = loopback.createDataSource('memory')
     Image = ds.createModel('image', {
       id: { type: Number, id: true },
-      source: String
+      source: String,
     })
 
     app.model(Image)
@@ -40,9 +40,9 @@ describe('Dont override config.js ', function () {
         data: {
           type: 'images',
           attributes: {
-            source: 'a'
-          }
-        }
+            source: 'a',
+          },
+        },
       })
       .set('Accept', 'application/vnd.api+json')
       .set('Content-Type', 'application/json')
@@ -57,9 +57,9 @@ describe('Dont override config.js ', function () {
         data: {
           type: 'images',
           attributes: {
-            source: 'A long text to make the payload greater then 100B'
-          }
-        }
+            source: 'A long text to make the payload greater then 100B',
+          },
+        },
       })
       .set('Accept', 'application/vnd.api+json')
       .set('Content-Type', 'application/json')

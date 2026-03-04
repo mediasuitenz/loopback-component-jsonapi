@@ -4,23 +4,11 @@
   "version": "3.0.2",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npm run lint && istanbul cover _mocha --report lcovonly --reporter=spec ./test/**/*.test.js",
-    "tester": "mocha --reporter=spec ./test/**/*.test.js",
-    "coverage": "istanbul cover _mocha ./test/**/*.test.js",
-    "lint": "standard './test/**/*.js' './lib/**/*.js' --verbose | snazzy",
-    "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once",
-    "precommit": "lint-staged",
-    "formatter": "prettier-standard-formatter .",
-    "commit": "git-cz",
-    "commit:retry": "git-cz --retry",
-    "commitmsg": "commitlint -e"
-  },
-  "lint-staged": {
-    "*.js": [
-      "npm run formatter",
-      "git add"
-    ]
+    "test": "mocha --reporter=spec ./test/**/*.test.js",
+    "test:cov": "nyc mocha --reporter=spec ./test/**/*.test.js",
+    "tester:otel": "OTEL_SERVICE_NAME=test OTEL_NODE_RESOURCE_DETECTORS='env,host,os' OTEL_TRACES_EXPORTER=otlp OTEL_OTLP_EXPORTER=http://127.0.0.1:4318 NODE_OPTIONS='--require @opentelemetry/auto-instrumentations-node/register' mocha --reporter=spec ./test/**/*.test.js",
+    "lint": "prettier --write .",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -48,21 +36,20 @@
     "type-is": "^1.6.14"
   },
   "devDependencies": {
-    "@commitlint/cli": "^6.0.2",
-    "@commitlint/config-conventional": "^6.0.2",
-    "@commitlint/prompt": "^6.0.2",
     "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
-    "istanbul": "^0.4.5",
-    "lint-staged": "^14.0.1",
     "loopback": "^3.0.0",
     "loopback-datasource-juggler": "^3.13.0",
-    "mocha": "^4.0.1",
+    "mocha": "^6.2.3",
+    "nyc": "^17.1.0",
+    "prettier": "3.6.2",
     "rsvp": "4.7.0",
     "semantic-release": "^12.2.2",
-    "snazzy": "^9.0.0",
-    "standard": "^17.1.2",
+    "superagent": "^10.2.3",
     "supertest": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.63.0"
   },
   "standard": {
     "globals": [
@@ -73,7 +60,7 @@
     ]
   },
   "engines": {
-    "node": "16.20.2"
+    "node": "^18.19.0 || >=20.6.0"
   },
   "config": {
     "commitizen": {

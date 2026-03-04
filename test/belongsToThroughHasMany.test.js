@@ -14,7 +14,7 @@ describe('belongsTo through hasMany', function () {
 
     Rule = ds.createModel('rule', {
       id: { type: Number, id: true },
-      name: String
+      name: String,
     })
 
     app.model(Rule)
@@ -22,14 +22,14 @@ describe('belongsTo through hasMany', function () {
     Action = ds.createModel('action', {
       id: { type: Number, id: true },
       cardId: Number,
-      name: String
+      name: String,
     })
 
     app.model(Action)
 
     Card = ds.createModel('card', {
       id: { type: Number, id: true },
-      title: String
+      title: String,
     })
 
     app.model(Card)
@@ -45,34 +45,35 @@ describe('belongsTo through hasMany', function () {
     beforeEach(function (done) {
       Rule.create(
         {
-          name: 'Rule 1'
+          name: 'Rule 1',
         },
         function (err, rule) {
           expect(err).to.equal(null)
           rule.actions.create(
-            [{ name: 'Action 1', cardId: 1 }, { name: 'Action 2', cardId: 1 }],
+            [
+              { name: 'Action 1', cardId: 1 },
+              { name: 'Action 2', cardId: 1 },
+            ],
             function (err, res) {
               expect(err).to.equal(null)
               Card.create([{ title: 'Card 1' }], done)
-            }
+            },
           )
-        }
+        },
       )
     })
 
     it('GET /rules/1/actions', function (done) {
-      request(app).get('/rules/1/actions').end(function (err, res) {
-        expect(err).to.equal(null)
-        expect(res.body.data[0].relationships.card).to.be.an('object')
-        expect(res.body.data[0].relationships.card.links).to.be.an('object')
-        expect(res.body.data[0].relationships.card.links.related).to.match(
-          /\/actions\/1\/card/
-        )
-        expect(res.body.data[1].relationships.card.links.related).to.match(
-          /\/actions\/2\/card/
-        )
-        done()
-      })
+      request(app)
+        .get('/rules/1/actions')
+        .end(function (err, res) {
+          expect(err).to.equal(null)
+          expect(res.body.data[0].relationships.card).to.be.an('object')
+          expect(res.body.data[0].relationships.card.links).to.be.an('object')
+          expect(res.body.data[0].relationships.card.links.related).to.match(/\/actions\/1\/card/)
+          expect(res.body.data[1].relationships.card.links.related).to.match(/\/actions\/2\/card/)
+          done()
+        })
     })
   })
 })

@@ -14,7 +14,7 @@ describe('loopback json api component delete method', function () {
     Post = ds.createModel('post', {
       id: { type: Number, id: true },
       title: String,
-      content: String
+      content: String,
     })
     app.model(Post)
     app.use(loopback.rest())
@@ -22,9 +22,9 @@ describe('loopback json api component delete method', function () {
     Post.create(
       {
         title: 'my post',
-        content: 'my post content'
+        content: 'my post content',
       },
-      done
+      done,
     )
   })
 
